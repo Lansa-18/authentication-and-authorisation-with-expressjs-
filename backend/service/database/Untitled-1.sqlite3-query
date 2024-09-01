@@ -1,0 +1,6 @@
+-- database: ./db.sqlite
+
+-- Use the ▷ button in the top right corner to run the entire file.
+
+DELETE FROM users
+-- ORDER BY `account_type` ASC;
