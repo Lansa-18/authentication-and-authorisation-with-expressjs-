@@ -12,6 +12,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Username</th>
                 <th>Email</th>
                 <th>Actions</th>
             </tr>
@@ -30,13 +31,39 @@
     </form>
 
     <script>
+        // async function loadUsers() {
+        //     const response = await fetch('https://turbo-space-waffle-x7w4w6755qpc66wq-4001.app.github.dev/admin/user',{
+        //         credentials:"include"
+        //     });
+        //     const users = (await response.json())?.payload;
+        //     if (!users) {
+        //         alert('Failed to load users');
+        //         window.location.href = '../index.html';
+        //         return;
+        //     }
+        //     const tbody = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+        //     tbody.innerHTML = '';
+        //     users.forEach(user => {
+        //         const row = tbody.insertRow();
+        //         row.insertCell(0).innerText = user.id;
+        //         row.insertCell(1).innerText = user.email;
+        //         const actionsCell = row.insertCell(2);
+        //         const editButton = document.createElement('button');
+        //         editButton.innerText = 'Edit';
+        //         editButton.onclick = () => {
+        //             window.location.href = `./user.html?user_id=${user.id}`;
+        //         };
+        //         actionsCell.appendChild(editButton);
+        //     });
+        // }
+
         async function loadUsers() {
             const response = await fetch('https://turbo-space-waffle-x7w4w6755qpc66wq-4001.app.github.dev/admin/user',{
                 credentials:"include"
             });
             const users = (await response.json())?.payload;
             if (!users) {
-                alert('Failed to load users');
+                // alert('Failed to load users');
                 window.location.href = '../index.html';
                 return;
             }
@@ -45,8 +72,9 @@
             users.forEach(user => {
                 const row = tbody.insertRow();
                 row.insertCell(0).innerText = user.id;
-                row.insertCell(1).innerText = user.email;
-                const actionsCell = row.insertCell(2);
+                row.insertCell(1).innerText = user.username;
+                row.insertCell(2).innerText = user.email;
+                const actionsCell = row.insertCell(3);
                 const editButton = document.createElement('button');
                 editButton.innerText = 'Edit';
                 editButton.onclick = () => {
@@ -60,17 +88,14 @@
         document.getElementById("delete-user-form").addEventListener("submit", async (event) => {
             event.preventDefault();
             const username = document.getElementById("username-to-delete").value;
-            const response = await fetch(`https://turbo-space-waffle-x7w4w6755qpc66wq-5500.app.github.dev/auth/delete/user`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username
-                }),
-                credentials: 'include'
+            const response = await fetch('https://turbo-space-waffle-x7w4w6755qpc66wq-4001.app.github.dev/auth/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username }),
+                credentials:"include"
+
             });
-                
+            console.log(response);
         });
 
         loadUsers();
