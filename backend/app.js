@@ -7,7 +7,6 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
-// app.use(cors());
 const PORT = process.env.PORT | 4001;
 app.use(morgan("tiny"));
 
@@ -42,7 +41,6 @@ app.use(function (req, res, next) {
     "x-access-token, Authorization, Authentication, withCredentials, credentials, Set-Cookie"
   );
   res.header("Access-Control-Allow-Credentials", true);
-  // res.header("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
   next();
 });
 

@@ -168,80 +168,27 @@ const update_user_profile = async (req, res) => {
 }
 
 // Writing the deleteUserProfile functionality. This deletes the user profile.
-// const delete_user_by_username = async (req, res) => {
-//     try {
-//         const {username} = req.body;
-
-//         // Getting the username from the JWT token using a helper function
-//         const requestingUser = await get_username(req);
-
-//         // Checking the received request in the console
-//         console.log(`Received request from ${requestingUser} to delete user with username: ${username}`);
-        
-//         // Checking whether or not the user is authenticated
-//         if(!req.user) {
-//             console.log('Unauthorized request. No authenticated user with that username');
-//             return res.status(401).json({message: 'Unauthorized'});  
-//         }
-
-//         // Ensuring the user only deletes their own account and not other user's account
-//         if (requestingUser !== username) {
-//             console.log(`User ${requestingUser} attempted to delete a different account (${username}).`);
-//         }
-
-//         // Checking if the user exists
-//         const userExists = await checkUserExists(username);
-//         if (!userExists) {
-//             console.log(`User ${username} does not exist.`);
-//             return res.status(400).json({message: 'User does not exist', ok: false})
-//         }
-
-//         // Finally deleting the user
-//         await deleteUser(username);
-//         console.log(`User ${username} successfully deleted,`);
-//         return res.status(200).json({message: 'User deleted successfully'});
-//     } catch (error) {
-//         console.error('Error deleting user:', error.message);
-//         console.error(error.stack);
-//         return res.status(500).json({ message: "Server Error", error: error.message });
-//     }
-// };
-
 const delete_user_by_username = async (req, res) => {
-    // try {
+    try {
         console.log('Starting delete_user_by_username function');
         
         const {username} = req.body;
         // Get User from username
 
-        // let user = await UserModel.findOne({ where: { username: username } })
-        // if (!user) {
-        //     return res.status(400).json({ message: "User Does not exist" })
-        // }
+        let user = await UserModel.findOne({ where: { username: username } })
+        if (!user) {
+            return res.status(400).json({ message: "User Does not exist" })
+        }
 
-        // // deleteUser 
-        // // await user.destroy();
-        // console.log(user);      
-
+        // deleting the User 
+        await user.destroy();
 
         return res.status(200).json({ message: "User deleted successfully" });  
-    // } catch (error) {
-    //     console.error('Unexpected error in delete_user_by_username:', error);
-    //     return res.status(500).json({ message: "Unexpected Server Error", error: error.message });
-    // }
+    } catch (error) {
+        console.error('Unexpected error in delete_user_by_username:', error);
+        return res.status(500).json({ message: "Unexpected Server Error", error: error.message });
+    }
 };
-
-// Helper function to check if a user exists in the database
-const checkUserExists = async username => {
-    const user = await UserModel.findOne({where: {username}});
-    return !!user; // This returns true if the user exists and false if not
-}
-
-// Helper function to delete a user from the database
-const deleteUser = async (username) => {
-    await UserModel.destroy({where: {username}});
-}
-
 
 module.exports = {
     login,

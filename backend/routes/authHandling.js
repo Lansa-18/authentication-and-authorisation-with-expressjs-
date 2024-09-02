@@ -11,23 +11,6 @@ router.post('/login', (req, res) => authController.login(req, res))
 router.post('/logout', (req, res) => authController.logout(req, res))
 router.post('/register', (req, res) => authController.register(req, res))
 router.post('/delete', (req, res) => authController.delete_user_by_username(req, res))
-// router.post(
-//     "/delete/user",
-//     authentication,
-//     authorisation({ isAdmin: false }),
-//     (req, res) => authController.delete_user_by_username(req, res),
-// );
-// router.post("/delete/user", (req, res) => authController.delete_user_by_username(req, res));
-// router.post(
-//     "/delete/user",
-//     (req, res, next) => {
-//         console.log("Request received at /delete/user");
-//         next();
-//     },
-//     authentication,
-//     authorisation({ isAdmin: false }),
-//     (req, res) => authController.delete_user_by_username(req, res),
-// );
 
 
 router.get('/user', authentication, authorisation("user"), (req, res) => authController.load_user_profile(req, res))

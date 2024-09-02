@@ -38,7 +38,7 @@
             });
             const user = (await response.json())?.payload;
             if (!user) {
-                alert('Failed to load user profile');
+                // alert('Failed to load user profile');
                 window.location.href = './index.html';
                 return
             }
